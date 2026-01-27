@@ -1,0 +1,9 @@
+{
+  "name": "digitaloffices",
+  "private": true,
+  "devDependencies": {
+    "prettier": "^3.8.1",
+    "prettier-plugin-packagejson": "^3.0.0",
+    "prettier-plugin-tailwindcss": "^0.7.2"
+  }
+}

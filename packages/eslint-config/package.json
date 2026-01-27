@@ -1,0 +1,15 @@
+{
+  "name": "@digitaloffices/eslint-config",
+  "private": true,
+  "main": "dist/main.js",
+  "dependencies": {
+    "@eslint/js": "^9.18.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.2",
+    "globals": "^16.0.0",
+    "typescript-eslint": "^8.20.0"
+  },
+  "devDependencies": {
+    "@digitaloffices/typescript-config": "workspace:*"
+  }
+}

@@ -1,0 +1,4 @@
+.env
+.idx
+dist
+node_modules

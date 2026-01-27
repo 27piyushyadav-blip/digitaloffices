@@ -1,0 +1,22 @@
+{
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "editor.wordWrap": "on",
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.mouseWheelZoom": true,
+  "terminal.integrated.mouseWheelZoom": true,
+  "editor.wordWrapColumn": 120,
+  "files.exclude": {
+    "**/.git": false
+  },
+  "editor.renderWhitespace": "all",
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "editor.quickSuggestionsDelay": 5,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}

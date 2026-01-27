@@ -1,0 +1,6 @@
+{
+  "extends": "@digitaloffices/typescript-config/base.json",
+  "compilerOptions": {
+    "declaration": true,
+  },
+}

@@ -1,0 +1,6 @@
+### Variables
+@baseUrl = http://localhost:3000
+
+### Get Hello (Default NestJS AppController)
+GET {{baseUrl}}/
+Accept: application/json
