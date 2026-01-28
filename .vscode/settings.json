@@ -1,22 +1,22 @@
 {
-  "eslint.workingDirectories": [
-    {
-      "mode": "auto"
-    }
-  ],
   "editor.wordWrap": "on",
-  "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
+  "editor.wordWrapColumn": 80,
+  "npm.packageManager": "pnpm",
+  "editor.formatOnPaste": true,
   "editor.mouseWheelZoom": true,
-  "terminal.integrated.mouseWheelZoom": true,
-  "editor.wordWrapColumn": 120,
-  "files.exclude": {
-    "**/.git": false
-  },
+  "prettier.requireConfig": true,
   "editor.renderWhitespace": "all",
+  "editor.quickSuggestionsDelay": 5,
+  "terminal.integrated.mouseWheelZoom": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.exclude": {
+    "**/.git": true
+  },
   "editor.quickSuggestions": {
     "strings": "on"
   },
-  "editor.quickSuggestionsDelay": 5,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "[nix]": {
+    "editor.defaultFormatter": "google.nix-language"
+  },
 }
