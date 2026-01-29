@@ -1,4 +1,23 @@
-.env
-.idx
-dist
-node_modules
+# Dependency directories
+node_modules/
+
+# Build artifacts
+dist/
+build/
+.next/
+.idx/
+
+# Environment and Secrets
+.env*
+
+# Caches (ESLint & Prettier)
+.eslintcache
+.prettiercache
+
+# Coverage and Logs
+coverage/
+*.log
+
+# Workspace/OS files
+.pnpm-store/
+.DS_Store

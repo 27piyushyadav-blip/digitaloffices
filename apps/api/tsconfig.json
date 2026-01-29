@@ -1,8 +1,10 @@
 {
-  "extends":"@digitaloffices/typescript-config/base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist",
+    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
-  }
+    "experimentalDecorators": true,
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*"]
 }

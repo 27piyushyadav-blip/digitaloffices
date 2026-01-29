@@ -1,3 +1,9 @@
+# Local IDE and System
+.turbo/
+.cache/
+.vscode/
+.idx/
+
 # Dependency directories
 node_modules/
 
@@ -6,6 +12,10 @@ dist/
 build/
 .next/
 out/
+
+# Caches (Matches your new package.json scripts)
+.eslintcache
+.prettiercache
 
 # pnpm and environment
 .pnpm-store/
@@ -18,7 +28,7 @@ coverage/
 npm-debug.log*
 pnpm-debug.log*
 
-# Public/Static assets (often don't need formatting)
+# Public/Static assets
 public/
 *.ico
 *.svg

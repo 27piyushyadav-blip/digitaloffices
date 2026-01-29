@@ -2,10 +2,11 @@
   "name": "digitaloffices",
   "private": true,
   "scripts": {
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "clean": "rimraf **/.eslintcache **/.prettiercache **/dist **/node_modules",
+    "format": "prettier --write . --cache",
+    "format:check": "prettier --check . --cache",
+    "lint": "eslint . --cache",
+    "lint:fix": "eslint . --fix --cache"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
@@ -18,7 +19,12 @@
     "prettier": "^3.4.2",
     "prettier-plugin-packagejson": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "rimraf": "^6.0.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.53.1"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=10"
   }
 }

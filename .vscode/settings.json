@@ -1,22 +1,61 @@
 {
+  /* --- CORE EDITOR --- */
   "editor.wordWrap": "on",
-  "editor.formatOnSave": true,
   "editor.wordWrapColumn": 80,
-  "npm.packageManager": "pnpm",
-  "editor.formatOnPaste": true,
   "editor.mouseWheelZoom": true,
-  "prettier.requireConfig": true,
   "editor.renderWhitespace": "all",
-  "editor.quickSuggestionsDelay": 5,
-  "terminal.integrated.mouseWheelZoom": true,
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorBlinking": "smooth",
+  "editor.guides.bracketPairs": "active",
+  "editor.bracketPairColorization.enabled": true,
+
+  /* --- FORMATTING & LINTING (The "Auto-Fix" Engine) --- */
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "files.exclude": {
-    "**/.git": true
+  "prettier.requireConfig": true,
+  "eslint.useFlatConfig": true,
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.addMissingImports": "explicit"
   },
+
+  /* --- INTELLISENSE & PERFORMANCE --- */
+  "editor.quickSuggestionsDelay": 0,
   "editor.quickSuggestions": {
+    "other": "on",
+    "comments": "off",
     "strings": "on"
   },
-  "[nix]": {
-    "editor.defaultFormatter": "google.nix-language"
-  }
+  "editor.suggestSelection": "first",
+  "typescript.suggest.completeFunctionCalls": true,
+  "javascript.suggest.completeFunctionCalls": true,
+
+  /* --- TAILWIND CSS OPTIMIZATION --- */
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
+  },
+  "editor.inlineSuggest.enabled": true,
+
+  /* --- FILE & PACKAGE MANAGEMENT --- */
+  "npm.packageManager": "pnpm",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.next": true,
+    "**/node_modules": false,
+    "**/.pnpm-store": true
+  },
+
+  /* --- LANGUAGE SPECIFIC --- */
+  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[nix]": { "editor.defaultFormatter": "google.nix-language" }
 }
