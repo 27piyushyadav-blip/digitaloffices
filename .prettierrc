@@ -1,15 +1,26 @@
 {
-  "printWidth": 100,
+  "printWidth": 80,
   "tabWidth": 2,
   "useTabs": false,
   "semi": true,
   "singleQuote": true,
-  "quoteProps": "as-needed",
   "jsxSingleQuote": false,
   "trailingComma": "all",
   "bracketSpacing": true,
-  "bracketSameLine": false,
   "arrowParens": "always",
-  "endOfLine": "lf",
-  "plugins": ["prettier-plugin-packagejson", "prettier-plugin-tailwindcss"]
+  "plugins": [
+    "prettier-plugin-packagejson",
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ],
+  "importOrder": [
+    "^react",
+    "^next",
+    "^@nestjs/(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "^@/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }

@@ -1,3 +1,26 @@
-dist
-node_modules
+# Dependency directories
+node_modules/
+
+# Build artifacts for Next.js, NestJS, and Node
+dist/
+build/
+.next/
+out/
+
+# pnpm and environment
+.pnpm-store/
 pnpm-lock.yaml
+.env*
+
+# Coverage and logs
+coverage/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Public/Static assets (often don't need formatting)
+public/
+*.ico
+*.svg
+*.png
+*.jpg
