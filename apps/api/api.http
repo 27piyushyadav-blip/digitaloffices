@@ -1,0 +1,78 @@
+### Digital Offices API - HTTP Requests
+### Use with REST Client extension in VS Code or similar tools
+
+@baseUrl = http://localhost:3000/api
+@accessToken = your-access-token-here
+@refreshToken = your-refresh-token-here
+
+### Register a new user
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "securepassword123",
+  "firstName": "John",
+  "lastName": "Doe"
+}
+
+### Login with credentials
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "securepassword123",
+  "rememberMe": true
+}
+
+### Google OAuth (ID token flow)
+POST {{baseUrl}}/auth/google
+Content-Type: application/json
+
+{
+  "idToken": "google-id-token-from-frontend"
+}
+
+### Verify email address
+POST {{baseUrl}}/auth/email/verify
+Content-Type: application/json
+
+{
+  "token": "verification-token-from-email"
+}
+
+### Request email verification (requires auth)
+POST {{baseUrl}}/auth/email/request-verification
+Authorization: Bearer {{accessToken}}
+
+### Refresh access token
+POST {{baseUrl}}/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+### Example: Full registration flow
+### 1. Register
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "newuser@example.com",
+  "password": "password123",
+  "firstName": "Jane",
+  "lastName": "Smith"
+}
+
+### 2. Check email for verification token, then verify
+POST {{baseUrl}}/auth/email/verify
+Content-Type: application/json
+
+{
+  "token": "verification-token-from-email"
+}
+
+### 3. Use returned tokens for authenticated requests
+### (Update @accessToken and @refreshToken variables above)

@@ -1,0 +1,14 @@
+{
+  "name": "@digitaloffices/contracts",
+  "version": "0.0.0",
+  "private": false,
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "pnpm -w lint",
+    "format": "pnpm -w format"
+  },
+  "dependencies": {
+    "zod": "^4.3.6"
+  }
+}
