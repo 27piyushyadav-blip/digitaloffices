@@ -16,7 +16,7 @@ Contract-driven monorepo with NestJS backend and Next.js frontend.
 3. **Monorepo Discipline**: Decoupled packages, shared contracts
 4. **No Duplication**: Single source of truth for types
 
-## Getting Started
+<!-- ## Getting Started -->
 
 ### Prerequisites
 
