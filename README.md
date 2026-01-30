@@ -18,7 +18,7 @@ Contract-driven monorepo with NestJS backend and Next.js frontend.
 
 <!-- ## Getting Started -->
 
-### Prerequisites
+<!-- ### Prerequisites -->
 
 - Node.js >= 20
 - pnpm >= 10
