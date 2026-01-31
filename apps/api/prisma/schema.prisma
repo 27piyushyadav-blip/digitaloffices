@@ -12,6 +12,7 @@ datasource db {
 
 model User {
   id            String    @id @default(uuid())
+  username      String    @unique // backend-generated, human-readable, for URLs e.g. /profile/{username}
   email         String    @unique
   passwordHash  String?   // null for OAuth-only users
   firstName     String

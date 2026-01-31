@@ -19,6 +19,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     // Map to AuthUser contract
     return {
       id: user.id,
+      username: user.username,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,

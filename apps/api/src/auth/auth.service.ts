@@ -10,6 +10,8 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { OAuth2Client } from 'google-auth-library';
 import * as crypto from 'crypto';
+import { Prisma } from '@prisma/client';
+import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator';
 import { PrismaService } from '../prisma/prisma.service';
 import { EmailService } from '../email/email.service';
 import { auth } from '@digitaloffices/contracts';
@@ -45,49 +47,72 @@ export class AuthService {
 
   /**
    * Register a new user account.
-   * Creates user and sends verification email (no tokens returned).
+   * Backend generates a unique username. Email uniqueness is enforced by DB constraint;
+   * duplicate email results in EMAIL_ALREADY_IN_USE (no pre-check).
    */
   async register(data: auth.RegisterRequest): Promise<auth.RegisterResponse> {
-    // Check if email already exists
-    const existingUser = await this.prisma.user.findUnique({
-      where: { email: data.email },
-    });
+    const passwordHash = await bcrypt.hash(data.password, 10);
+    const maxUsernameAttempts = 5;
 
-    if (existingUser) {
-      throw new ConflictException({
-        code: 'EMAIL_ALREADY_IN_USE',
-        message: 'Email is already registered',
-      } as auth.AuthError);
+    for (let attempt = 0; attempt < maxUsernameAttempts; attempt++) {
+      const username = this.generateUsername();
+      try {
+        const user = await this.prisma.user.create({
+          data: {
+            username,
+            email: data.email,
+            passwordHash,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            provider: 'credentials',
+          },
+        });
+
+        const tokenRecord = await this.createEmailVerificationToken(user.id);
+        await this.emailService.sendVerificationEmail(
+          user.email,
+          user.firstName,
+          tokenRecord.token,
+        );
+
+        return {
+          success: true,
+          username: user.username,
+          message: 'Verification email sent',
+        };
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+          const target = (error.meta?.target as string[] | undefined) ?? [];
+          if (target.includes('email')) {
+            throw new ConflictException({
+              code: 'EMAIL_ALREADY_IN_USE',
+              message: 'Email is already registered',
+            } as auth.AuthError);
+          }
+          if (target.includes('username')) {
+            continue; // retry with new username
+          }
+        }
+        throw error;
+      }
     }
 
-    // Hash password
-    const passwordHash = await bcrypt.hash(data.password, 10);
+    throw new ConflictException({
+      code: 'UNKNOWN',
+      message: 'Unable to generate unique username. Please try again.',
+    } as auth.AuthError);
+  }
 
-    // Create user
-    const user = await this.prisma.user.create({
-      data: {
-        email: data.email,
-        passwordHash,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        provider: 'credentials',
-      },
+  /**
+   * Generate a human-readable username (URL-safe) using unique-names-generator.
+   */
+  private generateUsername(): string {
+    return uniqueNamesGenerator({
+      dictionaries: [adjectives, colors, animals],
+      separator: '-',
+      length: 3,
+      style: 'lowerCase',
     });
-
-    // Generate and store verification token
-    const tokenRecord = await this.createEmailVerificationToken(user.id);
-
-    // Send verification email
-    await this.emailService.sendVerificationEmail(
-      user.email,
-      user.firstName,
-      tokenRecord.token,
-    );
-
-    return {
-      success: true,
-      message: 'Verification email sent',
-    };
   }
 
   /**
@@ -98,7 +123,7 @@ export class AuthService {
   async validateCredentials(
     email: string,
     password: string,
-  ): Promise<{ id: string; email: string; firstName: string; lastName: string; emailVerified: boolean; createdAt: Date; updatedAt: Date }> {
+  ): Promise<{ id: string; username: string; email: string; firstName: string; lastName: string; emailVerified: boolean; createdAt: Date; updatedAt: Date }> {
     const user = await this.prisma.user.findUnique({
       where: { email },
     });
@@ -215,17 +240,37 @@ export class AuthService {
           },
         });
       } else {
-        // Create new user
-        user = await this.prisma.user.create({
-          data: {
-            email,
-            firstName,
-            lastName,
-            provider: 'google',
-            providerId: googleId,
-            emailVerified,
-          },
-        });
+        // Create new user with backend-generated username (retry on username collision)
+        const maxAttempts = 5;
+        let newUser: Awaited<ReturnType<PrismaService['user']['create']>> | null = null;
+        for (let attempt = 0; attempt < maxAttempts; attempt++) {
+          const username = this.generateUsername();
+          try {
+            newUser = await this.prisma.user.create({
+              data: {
+                username,
+                email,
+                firstName,
+                lastName,
+                provider: 'google',
+                providerId: googleId,
+                emailVerified,
+              },
+            });
+            break;
+          } catch (createError) {
+            if (
+              createError instanceof Prisma.PrismaClientKnownRequestError &&
+              createError.code === 'P2002' &&
+              (createError.meta?.target as string[] | undefined)?.includes('username')
+            ) {
+              if (attempt === maxAttempts - 1) throw createError;
+              continue;
+            }
+            throw createError;
+          }
+        }
+        user = newUser!;
       }
 
       // Generate tokens
@@ -451,6 +496,7 @@ export class AuthService {
    */
   private mapUserToAuthUser(user: {
     id: string;
+    username: string;
     email: string;
     firstName: string;
     lastName: string;
@@ -460,6 +506,7 @@ export class AuthService {
   }): auth.AuthUser {
     return {
       id: user.id,
+      username: user.username,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
