@@ -45,7 +45,7 @@
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
   "files.exclude": {
-    "**/.git": true,
+    "**/.git": false,
     "**/.next": true,
     "**/node_modules": false,
     "**/.pnpm-store": true
