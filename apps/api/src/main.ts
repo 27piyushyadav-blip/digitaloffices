@@ -1,9 +1,10 @@
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { ZodValidationPipe } from 'nestjs-zod';
 
@@ -28,13 +29,39 @@ async function bootstrap() {
   app.enableShutdownHooks();
   app.setGlobalPrefix('api');
 
+  // Zod validation pipe (nestjs-zod)
   app.useGlobalPipes(new ZodValidationPipe());
+
+  // Swagger/OpenAPI documentation
+  const config = new DocumentBuilder()
+    .setTitle('Digital Offices API')
+    .setDescription(
+      'Contract-driven API with authentication endpoints. All types are inferred from Zod schemas in @digitaloffices/contracts.',
+    )
+    .setVersion('1.0')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        description: 'Enter JWT token',
+      },
+      'bearer',
+    )
+    .addTag('auth', 'Authentication endpoints')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, document, {
+    customSiteTitle: 'Digital Offices API Docs',
+  });
 
   const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
   try {
     await app.listen(port, '0.0.0.0');
     logger.log(`🚀 API is running on: http://localhost:${port}/api`);
+    logger.log(`📚 API Documentation: http://localhost:${port}/api/docs`);
   } catch (err) {
     logger.error(`❌ Error starting server: ${err}`);
     process.exit(1);

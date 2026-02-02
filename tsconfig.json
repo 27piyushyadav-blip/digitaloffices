@@ -20,7 +20,8 @@
     "paths": {
       "@/*": ["./*"],
       "@ui/*": ["packages/ui/src/*"],
-      "@utils/*": ["packages/utils/src/*"]
+      "@utils/*": ["packages/utils/src/*"],
+      "@contracts/*": ["packages/contracts/src/*"]
     },
 
     /* MONOREPO OPTIMISATION */
