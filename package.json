@@ -2,29 +2,32 @@
   "name": "digitaloffices",
   "private": true,
   "scripts": {
-    "clean": "rimraf **/.eslintcache **/.prettiercache **/dist **/node_modules",
+    "build": "pnpm -r run build",
+    "clean": "pnpm -r exec rimraf dist .next .turbo out node_modules",
+    "dev": "pnpm -r --parallel run dev",
     "format": "prettier --write . --cache",
-    "format:check": "prettier --check . --cache",
-    "lint": "eslint . --cache",
-    "lint:fix": "eslint . --fix --cache"
+    "lint": "eslint . --cache --max-warnings 0",
+    "test": "pnpm -r run test",
+    "type-check": "pnpm -r run type-check"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.3",
-    "@eslint/js": "^9.39.2",
+    "@eslint/eslintrc": "catalog:",
+    "@eslint/js": "catalog:",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
-    "eslint": "^9.39.2",
+    "eslint": "catalog:",
     "eslint-config-next": "^16.1.6",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^16.5.0",
-    "prettier": "^3.4.2",
+    "prettier": "catalog:",
     "prettier-plugin-packagejson": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.7.2",
-    "rimraf": "^6.0.1",
-    "typescript": "^5.9.3",
+    "rimraf": "catalog:",
+    "typescript": "catalog:",
     "typescript-eslint": "^8.53.1"
   },
+  "packageManager": "pnpm@10.28.2",
   "engines": {
-    "node": ">=20",
-    "pnpm": ">=10"
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
   }
 }

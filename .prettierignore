@@ -1,36 +1,32 @@
-# Local IDE and System
+# Framework Artifacts
+.next/
 .turbo/
-.cache/
-.vscode/
-.idx/
-
-# Dependency directories
-node_modules/
-
-# Build artifacts for Next.js, NestJS, and Node
+.nest/
 dist/
 build/
-.next/
 out/
 
-# Caches (Matches your new package.json scripts)
+# Dependencies & Lockfiles
+node_modules/
+pnpm-lock.yaml
+
+# Caches
 .eslintcache
 .prettiercache
+.cache/
 
-# pnpm and environment
-.pnpm-store/
-pnpm-lock.yaml
-.env*
+# Databases (Prisma/TypeORM)
+/packages/db/generated/
+/apps/api/prisma/migrations/
 
-# Coverage and logs
-coverage/
-*.log
-npm-debug.log*
-pnpm-debug.log*
-
-# Public/Static assets
+# Public Assets (Images/Fonts)
 public/
-*.ico
-*.svg
-*.png
-*.jpg
+**/*.svg
+**/*.ico
+**/*.png
+**/*.jpg
+
+# Local Dev/Secrets
+.env*
+.idx/
+.vscode/

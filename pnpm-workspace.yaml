@@ -1,7 +1,21 @@
 packages:
-  - apps/*
-  - packages/*
+  - 'apps/*'
+  - 'packages/*'
+
+catalog:
+  typescript: '^5.9.3'
+  eslint: '^9.39.2'
+  prettier: '^3.4.2'
+  rimraf: '^6.0.1'
+
+blockExoticSubdeps: true
 
 ignoredBuiltDependencies:
+  - '@prisma/client'
+  - '@prisma/engines'
   - '@scarf/scarf'
+  - bcrypt
+  - msgpackr-extract
+  - prisma
+  - sharp
   - unrs-resolver

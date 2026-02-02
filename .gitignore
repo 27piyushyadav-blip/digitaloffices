@@ -1,23 +1,48 @@
-# Dependency directories
+# --- Dependencies ---
 node_modules/
+.pnpm-store/
 
-# Build artifacts
+# --- Build Outputs ---
 dist/
 build/
 .next/
-.idx/
+out/
+*.tsbuildinfo
 
-# Environment and Secrets
-.env*
-
-# Caches (ESLint & Prettier)
+# --- Logs & Caches ---
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 .eslintcache
 .prettiercache
+.turbo/
+.cache/
 
-# Coverage and Logs
+# --- Environment & Secrets ---
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.pem
+
+# --- Database ---
+# Ignore Prisma generated client if not in packages
+**/generated/
+# SQLite databases
+*.db
+*.db-journal
+
+# --- Testing ---
 coverage/
-*.log
+.nyc_output
 
-# Workspace/OS files
-.pnpm-store/
+# --- IDE & OS ---
+.idea/
 .DS_Store
+Thumbs.db
+.idx/
+
+# --- System/Shell ---
+*.swp

@@ -12,7 +12,8 @@ const __dirname = path.dirname(__filename);
 const PROJECT_PATHS = {
   nextJs: ['apps/web/**/*.{js,jsx,ts,tsx}', 'packages/ui/**/*.{js,jsx,ts,tsx}'],
   nestJs: ['apps/api/**/*.ts', 'apps/worker/**/*.ts'],
-  nodeJs: ['packages/scripts/**/*.ts'],
+  nodeJs: ['packages/scripts/**/*.ts', 'packages/utils/**/*.ts'],
+  allTs: ['**/*.{ts,tsx}'],
 };
 
 const compat = new FlatCompat({
@@ -28,6 +29,7 @@ export default tseslint.config(
       '**/build/**',
       '**/coverage/**',
       '**/.nest/**',
+      '**/.turbo/**',
       'eslint.config.mjs',
     ],
   },
@@ -35,13 +37,16 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   ...tseslint.configs.stylistic,
   {
-    files: ['**/*.{ts,tsx}'],
+    files: PROJECT_PATHS.allTs,
     languageOptions: {
       parserOptions: {
-        project: true,
+        projectService: true,
         tsconfigRootDir: __dirname,
       },
-      globals: globals.node,
+      globals: {
+        ...globals.node,
+        ...globals.jest,
+      },
     },
     rules: {
       '@typescript-eslint/no-unused-vars': [
@@ -51,16 +56,19 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'warn',
     },
   },
+  // --- Next.js Specific Configuration ---
   ...compat.extends('next/core-web-vitals').map((config) => ({
     ...config,
     files: PROJECT_PATHS.nextJs,
   })),
+  // --- NestJS & Node.js Specific Configuration ---
   {
-    files: PROJECT_PATHS.nestJs,
+    files: [...PROJECT_PATHS.nestJs, ...PROJECT_PATHS.nodeJs],
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/interface-name-prefix': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
   eslintConfigPrettier,

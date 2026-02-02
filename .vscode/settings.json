@@ -1,61 +1,73 @@
 {
-  /* --- CORE EDITOR --- */
-  "editor.wordWrap": "on",
-  "editor.wordWrapColumn": 80,
-  "editor.mouseWheelZoom": true,
-  "editor.renderWhitespace": "all",
-  "editor.cursorSmoothCaretAnimation": "on",
-  "editor.cursorBlinking": "smooth",
-  "editor.guides.bracketPairs": "active",
-  "editor.bracketPairColorization.enabled": true,
-
-  /* --- FORMATTING & LINTING (The "Auto-Fix" Engine) --- */
-  "editor.formatOnSave": true,
-  "editor.formatOnPaste": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "prettier.requireConfig": true,
+  /* --- MONOREPO ENGINE (Performance & pnpm) --- */
+  "npm.packageManager": "pnpm",
   "eslint.useFlatConfig": true,
   "eslint.workingDirectories": [{ "mode": "auto" }],
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.addMissingImports": "explicit"
+  // Prevents VS Code from lagging by ignoring heavy build artifacts in search/watcher
+  "files.watcherExclude": {
+    "**/.next/**": true,
+    "**/dist/**": true,
+    "**/node_modules/**": true,
+    "**/.nest/**": true,
+    "**/.turbo/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.next": true,
+    "**/.nest": true,
+    "**/build": true,
+    "**/.cache": true
   },
 
-  /* --- INTELLISENSE & PERFORMANCE --- */
-  "editor.quickSuggestionsDelay": 0,
+  /* --- THE "INSTANT-FIX" ENGINE --- */
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never", // Let Prettier Plugin Sort Imports handle this
+    "source.addMissingImports": "explicit"
+  },
+  // Ensure Prettier uses your local workspace config strictly
+  "prettier.requireConfig": true,
+  "prettier.configPath": ".prettierrc",
+
+  /* --- TYPESCRIPT & INTELLISENSE (NestJS & Next.js) --- */
+  // Crucial for pnpm: ensures TS finds types in the virtual store
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.suggest.completeFunctionCalls": true,
+  "javascript.suggest.completeFunctionCalls": true,
+  "editor.suggestSelection": "recentlyUsed",
   "editor.quickSuggestions": {
     "other": "on",
     "comments": "off",
     "strings": "on"
   },
-  "editor.suggestSelection": "first",
-  "typescript.suggest.completeFunctionCalls": true,
-  "javascript.suggest.completeFunctionCalls": true,
 
-  /* --- TAILWIND CSS OPTIMIZATION --- */
+  /* --- TAILWIND & DX --- */
   "tailwindCSS.emmetCompletions": true,
-  "tailwindCSS.includeLanguages": {
-    "typescript": "javascript",
-    "typescriptreact": "javascript"
-  },
+  "tailwindCSS.classAttributes": ["class", "className", "ngClass", ".*ClassName"],
   "editor.inlineSuggest.enabled": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
 
-  /* --- FILE & PACKAGE MANAGEMENT --- */
-  "npm.packageManager": "pnpm",
+  /* --- UI & FEEL --- */
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorBlinking": "smooth",
+  "editor.renderWhitespace": "all",
+  "editor.wordWrap": "on",
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true,
-  "files.exclude": {
-    "**/.git": false,
-    "**/.next": true,
-    "**/node_modules": false,
-    "**/.pnpm-store": true
-  },
 
-  /* --- LANGUAGE SPECIFIC --- */
+  /* --- LANGUAGE SPECIFIC OVERRIDES --- */
   "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  "[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  "[nix]": { "editor.defaultFormatter": "google.nix-language" }
+  "[json]": { "editor.defaultFormatter": "vscode.json-language-features" },
+  "[jsonc]": { "editor.defaultFormatter": "vscode.json-language-features" },
+  "[html]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" }
 }
