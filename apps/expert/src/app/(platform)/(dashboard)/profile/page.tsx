@@ -5,7 +5,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { XCircle, Eye } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 // Backend removed - metadata removed for client component
@@ -23,7 +23,7 @@ type ProfileData = {
   draft: Record<string, any>;
 };
 
-export default function ProfilePage() {
+function ProfileContent() {
   const searchParams = useSearchParams();
   const [profile, setProfile] = useState<ProfileData | null>(null);
 
@@ -110,5 +110,13 @@ export default function ProfilePage() {
         initialTab={activeTab} // SSR-safe tab
       />
     </div>
+  );
+}
+
+export default function ProfilePage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center">Loading profile...</div>}>
+      <ProfileContent />
+    </Suspense>
   );
 }

@@ -2,9 +2,9 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
-  ArrowRight, CheckCircle2, Circle, AlertTriangle, 
-  XCircle, Clock, ShieldCheck, DollarSign, CalendarCheck, Users 
+import {
+  ArrowRight, CheckCircle2, Circle, AlertTriangle,
+  XCircle, Clock, ShieldCheck, DollarSign, CalendarCheck, Users
 } from "lucide-react";
 import Link from "next/link";
 import VisitingCard from "@/components/dashboard/VisitingCard";
@@ -18,7 +18,7 @@ const mockStats = [
 ];
 
 export default function DashboardPage() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<any>(null);
 
   useEffect(() => {
     // Mock data - backend removed
