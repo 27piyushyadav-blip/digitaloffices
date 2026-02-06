@@ -29,6 +29,20 @@ async function bootstrap() {
   app.enableShutdownHooks();
   app.setGlobalPrefix('api');
 
+  // Enable CORS for frontend connection
+  app.enableCors({
+    origin: [
+      'http://localhost:3001',
+      'http://localhost:3000',
+      'http://localhost:3002', // Client app
+      'http://127.0.0.1:3001',
+      'http://127.0.0.1:3002',
+    ], // Add your frontend URLs
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
+
   // Zod validation pipe (nestjs-zod)
   app.useGlobalPipes(new ZodValidationPipe());
 

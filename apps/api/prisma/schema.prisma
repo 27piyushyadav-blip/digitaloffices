@@ -10,6 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  USER
+  EXPERT
+  ADMIN
+}
+
 model User {
   id            String    @id @default(uuid())
   username      String    @unique // backend-generated, human-readable, for URLs e.g. /profile/{username}
@@ -21,6 +27,9 @@ model User {
   emailVerifiedAt DateTime?
   provider      String    @default("credentials") // 'credentials' | 'google'
   providerId    String?   // Google user ID for OAuth users
+  role          UserRole  @default(USER) // USER | EXPERT | ADMIN
+  isBlocked     Boolean   @default(false)
+  isUnlisted    Boolean   @default(false)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -29,6 +38,9 @@ model User {
 
   // Refresh tokens for session management
   refreshTokens RefreshToken[]
+
+  // Expert profile (if user is an expert)
+  expertProfile ExpertProfile?
 
   @@map("users")
 }
@@ -61,4 +73,33 @@ model RefreshToken {
   @@index([token])
   @@index([userId])
   @@map("refresh_tokens")
+}
+
+model ExpertProfile {
+  id                    String    @id @default(uuid())
+  userId                String    @unique
+  verificationStatus    VerificationStatus @default(PENDING)
+  rejectionReasons      String[]  @default([])
+  verifiedAt            DateTime?
+  verifiedBy            String?   // Admin user ID who verified
+  specialization        String?
+  experience            String?   // Years of experience
+  qualifications        String?   // JSON array of qualifications
+  bio                   String?
+  website               String?
+  linkedin              String?
+  portfolio             String?
+  pendingChanges        Json?     // Store pending changes for re-verification
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("expert_profiles")
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
 }
